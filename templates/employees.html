@@ -1,0 +1,27 @@
+{% extends "layouts/default.html" %}
+{% block title %}Employees {% endblock %}
+{% block content %}
+<div id="main">
+  <h1>Employees</h1>
+  <table>
+    <thead>
+      <tr>
+	<th>SSN</th>
+	<th>Name</th>
+	<th>LastName</th>
+	<th>Department</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for emp in employees %}
+      <tr>
+	<td>{{emp.ssn}}</td>
+	<td><a href="/employees/{{emp.code}}">{{emp.name}}</a></td>
+	<td>{{emp.lastname}}</td>
+	<td>{{emp.department}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
