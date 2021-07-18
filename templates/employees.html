@@ -3,12 +3,12 @@
 {% block content %}
 <div id="main">
   <h1>Employees</h1>
+  <p><a href="/employees/new">New Employee</a></p>
   <table>
     <thead>
       <tr>
 	<th>SSN</th>
 	<th>Name</th>
-	<th>LastName</th>
 	<th>Department</th>
       </tr>
     </thead>
@@ -16,8 +16,7 @@
       {% for emp in employees %}
       <tr>
 	<td>{{emp.ssn}}</td>
-	<td><a href="/employees/{{emp.code}}">{{emp.name}}</a></td>
-	<td>{{emp.lastname}}</td>
+	<td><a href="/employees/{{emp.code}}">{{emp.name}} {{emp.lastname}}</a></td>
 	<td>{{emp.department}}</td>
       </tr>
       {% endfor %}

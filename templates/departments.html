@@ -1,0 +1,25 @@
+{% extends "layouts/default.html" %}
+{% block title %}Departments{% endblock %}
+{% block content %}
+<div id="main">
+  <h1>Departments</h1>
+  <table>
+    <thead>
+      <tr>
+	<th>Code</th>
+	<th>Name</th>
+	<th>Budget</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for dept in departments %}
+      <tr>
+	<td>{{dept.code}}</td>
+	<td><a href="/departments/{{dept.code}}">{{dept.name}}</a></td>
+	<td>{{dept.budget}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

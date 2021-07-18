@@ -34,6 +34,31 @@
     (format t "~a~%" employees)
   (render #P"employees.html" (list :employees employees))))
 
+;; create employees
+(defroute ("/employees" :method :POST) (&key _parsed)
+  (print _parsed)
+    (let ((employees (with-connection (db)
+    (retrieve-all
+      (select :*
+        (from :employees))))))
+    (format t "~a~%" employees)
+  (render #P"employees.html" (list :employees employees))))
+
+(defroute "/employees/new" ()
+    (let ((departments (with-connection (db)
+    (retrieve-all
+      (select :*
+        (from :departments))))))
+  (render #P"new-employee.html" (list :departments departments))))
+
+
+(defroute "/departments" ()
+    (let ((departments (with-connection (db)
+    (retrieve-all
+      (select :*
+        (from :departments))))))
+    (format t "~a~%" departments)
+  (render #P"departments.html" (list :departments departments))))
 ;;
 ;; Error pages
 

@@ -1,0 +1,32 @@
+{% extends "layouts/default.html" %}
+{% block title %}New Employee{% endblock %}
+{% block content %}
+<div id="main">
+  <h1>New Employee</h1>
+  <form action="/employees" method="POST">
+    <p>
+      <label for="txtSSN">SSN:</label>
+      <input name="ssn" type="text" value=""/>
+    </p>
+    <p>
+      <label for="txtName">First Name:</label>
+      <input name="name" type="text" value=""/>
+    </p>
+    <p>
+      <label for="txtLastname">Last Name:</label>
+      <input id="txtLastName" name="lastname" type="text" value=""/>
+    </p>
+    <p>
+      <label for="lstDept">Departement:</label>
+      <select name="department" id="lstDept">
+        {% for dept in departments %}
+        <option value={{dept.code}}>{{dept.name}}</option>
+        {% endfor %}
+        </select>
+    </p>
+    <p>
+      <button type="submit">Create</button>
+      <button type="cancel">Cancel</button>
+    </form>
+</div>
+{% endblock %}

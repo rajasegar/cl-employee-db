@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
 }
@@ -18,4 +23,45 @@ a:hover {
 
 #main {
   text-align: center;
+  padding: 0 1em;
+}
+
+nav ul {
+  display: flex;
+}
+
+li {
+  list-style: none;
+  margin: 0.5em 1em;
+}
+
+table, td, th {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+td, th {
+  padding: 0.5em;
+}
+
+.brand {
+  font-weight: bolder;
+  color: teal;
+}
+
+p {
+  margin: 0.5em;
+}
+
+button {
+  padding: 0.25em .5em;
+  background: teal;
+  color: white;
+  border: 1px solid darkgreen;
+  cursor: pointer;
+}
+
+button:hover {
+  background: darkgreen;
+  
 }
