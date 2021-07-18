@@ -1,0 +1,50 @@
+{% extends "layouts/default.html" %}
+{% block title %}Edit Employee{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="columns">
+    <div class="column is-half">
+      <h1 class="is-size-1">Edit Employee - {{employee.name}}</h1>
+      <form action="/employees/update/{{employee.ssn}}" method="POST">
+        <div class="field">
+          <label class="label" for="txtSSN">SSN:</label>
+          <div class="control">
+            <input class="input" name="ssn" type="text" value={{employee.ssn}} />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="txtName">First Name:</label>
+          <div class="control">
+            <input class="input" name="name" type="text" value={{employee.name}} />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="txtLastname">Last Name:</label>
+          <div class="control">
+            <input class="input" id="txtLastName" name="lastname" type="text" value={{employee.lastname}} />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="lstDept">Departement:</label>
+          <div class="control">
+            <div class="select">
+              <select name="department" id="lstDept">
+                {% for dept in departments %}
+                <option value={{dept.code}} selected="{% ifequal dept.code employee.department %}true{% endifequal %}">{{dept.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-link" type="submit">Update</button>
+          </div>
+          <div class="control">
+            <a href="/employees" class="button is-link is-light">Cancel</a>
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

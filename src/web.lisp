@@ -34,15 +34,37 @@
     (format t "~a~%" employees)
   (render #P"employees.html" (list :employees employees))))
 
+(defun get-param (name parsed)
+  (cdr (assoc name parsed :test #'string=)))
+
 ;; create employees
 (defroute ("/employees" :method :POST) (&key _parsed)
   (print _parsed)
-    (let ((employees (with-connection (db)
-    (retrieve-all
+  (with-connection (db)
+    (execute
+     (insert-into :employees
+       (set= :ssn (get-param "ssn" _parsed)
+             :name (get-param "name" _parsed)
+             :lastname (get-param "lastname" _parsed)
+             :department (get-param "department" _parsed))))
+
+    (let ((employees (retrieve-all
+                      (select :*
+                        (from :employees)))))
+      (format t "~a~%" employees)
+      (render #P"employees.html" (list :employees employees)))))
+
+;; edit employee
+(defroute "/employees/edit/:ssn" (&key ssn)
+  (with-connection (db)
+  (let ((departments (retrieve-all
       (select :*
-        (from :employees))))))
-    (format t "~a~%" employees)
-  (render #P"employees.html" (list :employees employees))))
+        (from :departments))))
+        (employee (retrieve-one
+                   (select :*
+                     (from :employees)
+                     (where (:= :ssn ssn))))))
+  (render #P"edit-employee.html" (list :departments departments :employee employee)))))
 
 (defroute "/employees/new" ()
     (let ((departments (with-connection (db)

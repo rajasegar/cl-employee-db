@@ -10,14 +10,19 @@
 	<th>SSN</th>
 	<th>Name</th>
 	<th>Department</th>
+	<th>Edit</th>
+	<th>Delete</th>
+
       </tr>
     </thead>
     <tbody>
       {% for emp in employees %}
       <tr>
 	<td>{{emp.ssn}}</td>
-	<td><a href="/employees/{{emp.code}}">{{emp.name}} {{emp.lastname}}</a></td>
+	<td><a href="/employees/{{emp.ssn}}">{{emp.name}} {{emp.lastname}}</a></td>
 	<td>{{emp.department}}</td>
+	<td><a href="/employees/edit/{{emp.ssn}}">Edit</a></td>
+	<td><a href="/employees/delete/{{emp.ssn}}">Delete</a></td>
       </tr>
       {% endfor %}
     </tbody>
