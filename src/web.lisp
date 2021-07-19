@@ -39,7 +39,7 @@
        (from :employees)
        (inner-join :departments :on (:= :employees.department :departments.code)))))))
     (format t "~a~%" employees)
-  (render #P"employees.html" (list :employees employees))))
+  (render #P"employees/index.html" (list :employees employees))))
 
 ;; employees#new
 (defroute "/employees/new" ()
@@ -47,7 +47,7 @@
     (retrieve-all
       (select :*
         (from :departments))))))
-  (render #P"new-employee.html" (list :departments departments))))
+  (render #P"employees/new.html" (list :departments departments))))
 
 
 ;; employees#create
@@ -65,7 +65,7 @@
                       (select :*
                         (from :employees)))))
       (format t "~a~%" employees)
-      (render #P"employees.html" (list :employees employees)))))
+      (render #P"employees/index.html" (list :employees employees)))))
 
 ;; employees#show
 (defroute "/employees/:ssn" (&key ssn)
@@ -78,7 +78,7 @@
 		       (from :employees)
 		       (inner-join :departments :on (:= :employees.department :departments.code))
 		       (where (:= :ssn ssn))))))
-      (render #P"show-employee.html" (list :employee employee)))))
+      (render #P"employees/show.html" (list :employee employee)))))
 
 ;; edit employee
 (defroute "/employees/:ssn/edit" (&key ssn)
@@ -90,7 +90,7 @@
                    (select :*
                      (from :employees)
                      (where (:= :ssn ssn))))))
-  (render #P"edit-employee.html" (list :departments departments :employee employee)))))
+  (render #P"employees/edit.html" (list :departments departments :employee employee)))))
 
 ;; update employee
 (defroute ("/employees/:ssn/update" :method :POST) (&key ssn _parsed)
@@ -123,7 +123,49 @@
       (select :*
         (from :departments))))))
     (format t "~a~%" departments)
-  (render #P"departments.html" (list :departments departments))))
+  (render #P"departments/index.html" (list :departments departments))))
+
+(defroute "/departments/new" ()
+  (render #P"departments/new.html"))
+
+(defroute ("/departments" :method :POST) (&key _parsed)
+  (with-connection (db)
+    (let ((code (get-param "code" _parsed))
+          (name (get-param "name" _parsed))
+          (budget (get-param "budget" _parsed)))
+      (execute
+       (insert-into :departments
+         (set= :code code
+                :name name
+               :budget budget)))
+  (redirect "/departments"))))
+
+(defroute "/departments/:code/edit" (&key code)
+  (with-connection (db)
+    (let ((dept (retrieve-one
+                 (select :*
+                   (from :departments)
+                   (where (:= :code code))))))
+      (print dept)
+      (render #P"departments/edit.html" (list :dept dept)))))
+
+(defroute ("/departments/:code/update" :method :POST) (&key code _parsed)
+  (with-connection (db)
+    (execute
+     (update :departments
+       (set= :name (get-param "name" _parsed)
+             :budget (get-param "budget" _parsed))
+       (where (:= :code code))))
+    (redirect "/departments")))
+
+(defroute "/departments/:code/delete" (&key code)
+  (with-connection (db)
+    (execute
+     (delete-from :departments
+       (where (:= :code code)))))
+  (redirect "/departments"))
+
+
 ;;
 ;; Error pages
 

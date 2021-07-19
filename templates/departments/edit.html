@@ -1,0 +1,36 @@
+{% extends "layouts/default.html" %}
+{% block title %}Edit Department{% endblock %}
+{% block content %}
+<div class="container">
+  <h1 class="is-size-3">Edit Department</h1>
+  <form action="/departments/{{dept.code}}/update" method="POST">
+<div class="field">
+<label class="label" for="txtSSN">Code:</label>
+<div class="control">
+    <input class="input" name="code" type="number" value="{{dept.code}}" />
+</div>
+</div>
+<div class="field">
+<label class="label" for="txtName">Name:</label>
+<div class="control">
+    <input class="input" name="name" type="text" value="{{dept.name}}" />
+</div>
+</div>
+<div class="field">
+<label class="label" for="txtBudget">Budget:</label>
+<div class="control">
+    <input class="input" id="txtBudget" name="budget" type="text" value="{{dept.budget}}" />
+</div>
+</div>
+    <div class="field is-grouped">
+      <div class="control">
+	<button class="button is-link" type="submit">Update</button>
+      </div>
+      <div class="control">
+	<a href="/employees" class="button is-link is-light">Cancel</a>
+      </div>
+    </div>
+  </form>
+
+</div>
+{% endblock %}
