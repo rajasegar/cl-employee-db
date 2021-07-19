@@ -7,14 +7,56 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css">
 </head>
 <body>
-  <nav>
-    <ul>
-      <li><span class="brand">cl-employee-db</span></li>
-      <li><a href="/">Home</a></li>
-      <li><a href="/employees">Employees</a></li>
-      <li><a href="/departments">Departments</a></li>
-      </ul>
-    </nav>
-  {% block content %}{% endblock %}
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="https://bulma.io">
+      <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+    </a>
+
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="/">
+        Home
+      </a>
+      <a class="navbar-item" href="/employees">
+        Employees
+      </a>
+      <a class="navbar-item" href="/departments">
+        Departments
+      </a>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          <a class="button is-dark" href="https://github.com/rajasegar/cl-employee-db">
+            <span class="icon">
+<ion-icon name="logo-github"></ion-icon>
+</span>
+            <strong>Github</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+{% block content %}{% endblock %}
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>cl-employee-db</strong> by <a href="https://github.com/rajasegar">Rajasegar Chandran</a>. The source code is licensed
+      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+      is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+    </p>
+  </div>
+</footer>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 </body>
 </html>
