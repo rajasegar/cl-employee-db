@@ -1,9 +1,3 @@
-{% extends "layouts/default.html" %}
-{% block title %}New Employee{% endblock %}
-{% block content %}
-<div class="container">
-  <h1 class="is-size-3">New Employee</h1>
-  <form action="/employees" method="POST">
 <div class="field">
 <label class="label" for="txtSSN">SSN:</label>
 <div class="control">
@@ -28,21 +22,9 @@
     <div class="select">
     <select name="department" id="lstDept">
 	{% for dept in departments %}
-	<option value="{{dept.code}}">{{dept.name}}</option>
+	<option value={{dept.code}} selected="{% ifequal dept.code employee.department %}true{% endifequal %}">{{dept.name}}</option>
 	{% endfor %}
     </select>
     </div>
 </div>
 </div>
-    <div class="field is-grouped">
-      <div class="control">
-	<button class="button is-link" type="submit">Create</button>
-      </div>
-      <div class="control">
-	<a href="/employees" class="button is-link is-light">Cancel</a>
-      </div>
-    </div>
-  </form>
-
-</div>
-{% endblock %}

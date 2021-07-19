@@ -2,8 +2,14 @@
 {% block title %}Employees {% endblock %}
 {% block content %}
 <div class="container">
-  <h1>Employees</h1>
+  <div class="columns">
+    <div class="column is-two-thirds">
+  <h1 class="is-size-3">Employees</h1>
+    </div>
+    <div class="column">
   <p><a class="button is-primary" href="/employees/new">New Employee</a></p>
+    </div>
+    </div>
   <table class="table is-striped">
     <thead>
       <tr>
@@ -21,8 +27,14 @@
 	<td>{{emp.ssn}}</td>
 	<td><a href="/employees/{{emp.ssn}}">{{emp.name}} {{emp.lastname}}</a></td>
 	<td>{{emp.department}}</td>
-	<td><a href="/employees/edit/{{emp.ssn}}">Edit</a></td>
-	<td><a href="/employees/delete/{{emp.ssn}}">Delete</a></td>
+	<td><a class="button is-info" href="/employees/{{emp.ssn}}/edit">
+	    <span class="icon">
+	    <ion-icon name="create-outline"></ion-icon>
+	      </span>
+	</a></td>
+	<td><a class="button is-danger" href="/employees/delete/{{emp.ssn}}">
+	    <span class="icon"><ion-icon name="trash-outline"></ion-icon></span>
+	</a></td>
       </tr>
       {% endfor %}
     </tbody>

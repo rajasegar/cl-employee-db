@@ -1,0 +1,44 @@
+{% extends "layouts/default.html" %}
+{% block title %}{{employee.name}} - Employee{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="columns">
+    <div class="column is-two-thirds">
+      <h1 class="is-size-1">{{employee.name}} {{employee.lastname}}</h1>
+    </div>
+    <div class="column">
+      <a class="button is-primary" href="/employees/edit/{{employee.ssn}}">Edit</a>
+      <a class="button is-danger" href="/employees/delete/{{employee.ssn}}">Delete</a>
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="column is-half">
+      <div class="field">
+	<label class="label" for="txtSSN">SSN:</label>
+	<div class="control">
+	  {{employee.ssn}}
+	  <!-- <input class="input" name="ssn" type="text" value={{employee.ssn}} /> -->
+	</div>
+      </div>
+      <div class="field">
+	<label class="label" for="txtName">First Name:</label>
+	<div class="control">
+	  <input class="input" name="name" type="text" value={{employee.name}} />
+	</div>
+      </div>
+      <div class="field">
+	<label class="label" for="txtLastname">Last Name:</label>
+	<div class="control">
+	  <input class="input" id="txtLastName" name="lastname" type="text" value={{employee.lastname}} />
+	</div>
+      </div>
+      <div class="field">
+	<label class="label" for="lstDept">Department:</label>
+	<div class="control">
+	  {{employee.department}}
+	</div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

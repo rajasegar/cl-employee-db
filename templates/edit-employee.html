@@ -25,12 +25,12 @@
           </div>
         </div>
         <div class="field">
-          <label class="label" for="lstDept">Departement:</label>
+          <label class="label" for="lstDept">Department:</label>
           <div class="control">
             <div class="select">
               <select name="department" id="lstDept">
                 {% for dept in departments %}
-                <option value={{dept.code}} selected="{% ifequal dept.code employee.department %}true{% endifequal %}">{{dept.name}}</option>
+                <option value={{dept.code}} {% ifequal dept.code employee.department %}selected="true"{% endifequal %}>{{dept.name}}</option>
                 {% endfor %}
               </select>
             </div>
@@ -43,8 +43,8 @@
           <div class="control">
             <a href="/employees" class="button is-link is-light">Cancel</a>
           </div>
+	</div>
       </form>
-      </div>
     </div>
   </div>
   {% endblock %}

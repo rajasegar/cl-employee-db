@@ -20,6 +20,9 @@
 (defvar *web* (make-instance '<web>))
 (clear-routing-rules *web*)
 
+(defun get-param (name parsed)
+  "Get param value from _parsed"
+  (cdr (assoc name parsed :test #'string=)))
 ;;
 ;; Routing rules
 
@@ -29,15 +32,25 @@
 (defroute "/employees" ()
     (let ((employees (with-connection (db)
     (retrieve-all
-      (select :*
-        (from :employees))))))
+     (select (:ssn
+	      :lastname
+       (:as :employees.name :name)
+       (:as :departments.name :department))
+       (from :employees)
+       (inner-join :departments :on (:= :employees.department :departments.code)))))))
     (format t "~a~%" employees)
   (render #P"employees.html" (list :employees employees))))
 
-(defun get-param (name parsed)
-  (cdr (assoc name parsed :test #'string=)))
+;; employees#new
+(defroute "/employees/new" ()
+    (let ((departments (with-connection (db)
+    (retrieve-all
+      (select :*
+        (from :departments))))))
+  (render #P"new-employee.html" (list :departments departments))))
 
-;; create employees
+
+;; employees#create
 (defroute ("/employees" :method :POST) (&key _parsed)
   (print _parsed)
   (with-connection (db)
@@ -54,8 +67,21 @@
       (format t "~a~%" employees)
       (render #P"employees.html" (list :employees employees)))))
 
+;; employees#show
+(defroute "/employees/:ssn" (&key ssn)
+  (with-connection (db)
+    (let ((employee (retrieve-one
+		     (select (:ssn
+			      :lastname
+			      (:as :employees.name :name)
+			      (:as :departments.name :department))
+		       (from :employees)
+		       (inner-join :departments :on (:= :employees.department :departments.code))
+		       (where (:= :ssn ssn))))))
+      (render #P"show-employee.html" (list :employee employee)))))
+
 ;; edit employee
-(defroute "/employees/edit/:ssn" (&key ssn)
+(defroute "/employees/:ssn/edit" (&key ssn)
   (with-connection (db)
   (let ((departments (retrieve-all
       (select :*
@@ -66,12 +92,29 @@
                      (where (:= :ssn ssn))))))
   (render #P"edit-employee.html" (list :departments departments :employee employee)))))
 
-(defroute "/employees/new" ()
-    (let ((departments (with-connection (db)
-    (retrieve-all
-      (select :*
-        (from :departments))))))
-  (render #P"new-employee.html" (list :departments departments))))
+;; update employee
+(defroute ("/employees/:ssn/update" :method :POST) (&key ssn _parsed)
+  (with-connection (db)
+    (let ((name (get-param "name" _parsed))
+	  (lastname (get-param "lastname" _parsed))
+	  (department (get-param "department" _parsed)))
+    (execute
+     (update :employees
+       (set=
+	:name name
+	:lastname lastname
+	:department department)
+       (where (:= :ssn ssn))))
+      (redirect (concatenate 'string "/employees/" ssn)))))
+
+;; delete employee
+(defroute "/employees/:ssn/delete" (&key ssn)
+  (with-connection (db)
+    (execute
+     (delete-from :employees
+       (where (:= :ssn ssn)))))
+  (redirect "/employees"))
+
 
 
 (defroute "/departments" ()
